@@ -70,49 +70,5 @@
     justify-content: space-between;
     align-items: center;
   }
-
-  .secao-tabela {
-    margin-top: 30px;
-    width: 100%;
-  }
   
-  .tabela-visitas {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    border-radius: 10px;
-    overflow: hidden;
-    font-size: 1rem;
-  }
-  
-  .tabela-visitas th, .tabela-visitas td {
-    padding: 16px 20px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .tabela-visitas th {
-    background-color: #0e4711;
-    color: #fff;
-  }
-  
-  .tabela-visitas tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .btn-visualizar {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #0e4711;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-visualizar:hover {
-    background-color: #0d8112;
-  }
   
