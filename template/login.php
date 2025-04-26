@@ -1,3 +1,11 @@
+<?php
+session_start();
+$erros = $_SESSION['erros'] ?? [];  
+$erroLogin = $_SESSION['erroLogin'] ?? '';  
+$dados = $_SESSION['dados'] ?? [];  
+unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);  
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -21,22 +29,29 @@
                     <h2>LOGIN</h2>
                     <p class="text-muted">Entre para continuar</p>
 
-                    <?php
-                    if (isset($_GET['erro']) && $_GET['erro'] == 1) {
-                        echo '<div class="alert alert-danger">E-mail ou senha inválidos!</div>';
-                    }
-                    ?>
+                    <?php if (!empty($erroLogin)): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= htmlspecialchars($erroLogin) ?>
+                        </div>
+                    <?php endif; ?>
 
-                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php" onsubmit="return validarFormulario()">
+                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com"
+                                   value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
+                            <?php if (isset($erros['email'])): ?>
+                                <span class="text-danger"><?= htmlspecialchars($erros['email']) ?></span>
+                            <?php endif; ?>
                             <div id="emailErro" class="error-message"></div>
                         </div>
 
                         <div class="mb-4">
                             <label for="senha" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="senha" name="senha" placeholder="********">
+                            <?php if (isset($erros['senha'])): ?>
+                                <div class="error-message text-danger"><?= htmlspecialchars($erros['senha']) ?></div>
+                            <?php endif; ?>
                             <div id="senhaErro" class="error-message"></div>
                         </div>
 
