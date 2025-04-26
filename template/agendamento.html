@@ -45,7 +45,61 @@
         </div>
       
         <div class="content mt-4">
-          <p>Aqui virá o conteúdo da home...</p>
+            <div class="form-container">
+                
+                <h1>Agende sua visita</h1>
+
+                <form method="POST" action="">
+                    <div class="campo">
+                        <label for="nome_responsavel">Nome do Responsável:</label>
+                        <input type="text" name="nome_responsavel" id="nome_responsavel" placeholder="Ex: Maria Silva">
+                        <?php if (isset($_SESSION['erros']['nome_responsavel'])): ?>
+                            <span class="erro"><?= $_SESSION['erros']['nome_responsavel'] ?></span>
+                        <?php endif; ?>
+                    </div>
+            
+                    <div class="campo">
+                        <label for="nome_escola">Nome da Escola:</label>
+                        <input type="text" name="nome_escola" id="nome_escola" placeholder="Ex: Escola Estadual ABC">
+                    </div>
+            
+                    <div class="grid-dupla">
+                        <div class="campo">
+                            <label for="dia_pretendido">Data Pretendido:</label>
+                            <input type="date" name="dia_pretendido" id="dia_pretendido">
+                        </div>
+            
+                        <div class="campo">
+                            <label for="horario">Horário:</label>
+                            <input type="time" name="horario" id="horario">
+                        </div>
+                    </div>
+            
+                    <div class="campo">
+                        <label for="n_visitante">Número de Visitantes:</label>
+                        <input type="number" name="n_visitante" id="n_visitante" placeholder="Ex: 30">
+                    </div>
+            
+                    <div class="grid-dupla">
+                        <div class="campo">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" name="telefone" id="telefone" placeholder="Ex: (35) 99999-9999">
+                        </div>
+            
+                        <div class="campo">
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" id="email" placeholder="Ex: exemplo@escola.com">
+                        </div>
+                    </div>
+            
+                    <div class="campo">
+                        <label for="faixa_etaria">Faixa Etária dos Visitantes:</label>
+                        <input type="text" name="faixa_etaria" id="faixa_etaria" placeholder="Ex: 10 a 12 anos">
+                    </div>
+            
+                    <button type="submit">Agendar Visita</button>
+                </form>
+            </div>
         </div>
     </main>
       
