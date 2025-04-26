@@ -1,12 +1,29 @@
 <?php
+session_start(); 
+
 $emailCorreto = 'admin@museu.com';
-$senhaCorreta = '123456';
+$senhaCorreta = 'Admin@123'; 
 
 $email = $_POST['email'] ?? '';
 $senha = $_POST['senha'] ?? '';
 
+function senhaForte($senha) {
+    return preg_match('/[A-Za-z]/', $senha) && preg_match('/[0-9]/', $senha) && preg_match('/[^A-Za-z0-9]/', $senha);
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header('Location: /SitedoMuseu/template/login.php?erro=1');
+    exit();
+}
+
+if (!senhaForte($senha)) {
+    header('Location: /SitedoMuseu/template/login.php?erro=1');
+    exit();
+}
+
 if ($email === $emailCorreto && $senha === $senhaCorreta) {
-    header('Location: gerencia.html');
+    $_SESSION['usuario'] = $email;
+    header('Location: /SitedoMuseu/template/gerencia.html');
     exit();
 } else {
     header('Location: /SitedoMuseu/template/login.php?erro=1');
