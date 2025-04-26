@@ -1,9 +1,9 @@
 <?php
 session_start();
-$erros = $_SESSION['erros'] ?? [];  // Recupera erros da sessão
-$erroLogin = $_SESSION['erroLogin'] ?? '';  // Recupera a mensagem de erro de login
-$dados = $_SESSION['dados'] ?? [];  // Recupera os dados do formulário
-unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);  // Limpa os erros e dados após o uso
+$erros = $_SESSION['erros'] ?? [];  
+$erroLogin = $_SESSION['erroLogin'] ?? '';  
+$dados = $_SESSION['dados'] ?? [];  
+unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);  
 ?>
 
 <!DOCTYPE html>
