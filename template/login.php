@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Museu</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="/SitedoMuseu/static/css/estiloLogin.css">
 </head>
 <body>
@@ -13,6 +14,10 @@
             <div class="login-content">
                 <div class="left-box"></div>
                 <div class="right-box">
+                    <a href="/SitedoMuseu/index.html" class="text-decoration-none text-dark mb-3 d-inline-block">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a> 
+
                     <h2>LOGIN</h2>
                     <p class="text-muted">Entre para continuar</p>
 

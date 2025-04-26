@@ -23,7 +23,7 @@ if (!senhaForte($senha)) {
 
 if ($email === $emailCorreto && $senha === $senhaCorreta) {
     $_SESSION['usuario'] = $email;
-    header('Location: /SitedoMuseu/template/gerencia.html');
+    header('Location: /SitedoMuseu/template/gerencia.php');
     exit();
 } else {
     header('Location: /SitedoMuseu/template/login.php?erro=1');
