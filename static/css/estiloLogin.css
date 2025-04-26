@@ -39,7 +39,7 @@ body {
   
   .left-box {
     flex: 1;
-    background-image: url('/imagens/teste.jpg');
+    background-image: url('/static/imagens/teste.jpg');
     background-size: cover;
     background-position: center;
   }
