@@ -5,40 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Museu</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/estiloLogin.css">
+  <link rel="stylesheet" href="/SitedoMuseu/static/css/estiloLogin.css">
 </head>
 <body>
     <div class="page-container">
         <div class="login-wrapper">
             <div class="login-content">
-                <div class="left-box">
-                    
-                </div>
+                <div class="left-box"></div>
                 <div class="right-box">
                     <h2>LOGIN</h2>
                     <p class="text-muted">Entre para continuar</p>
-                    <form>
+
+                    <?php
+                    if (isset($_GET['erro']) && $_GET['erro'] == 1) {
+                        echo '<div class="alert alert-danger">E-mail ou senha inválidos!</div>';
+                    }
+                    ?>
+
+                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" placeholder="exemplo@email.com">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com" required>
                         </div>
                         <div class="mb-4">
                             <label for="senha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="senha" placeholder="********">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="********" required>
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-success" type="button" onclick="redirectToPage()">Entrar</button>
+                            <button class="btn btn-success" type="submit">Entrar</button>
                         </div>
                         <p class="text-center mt-3"><a href="#" class="text-black">Esqueci minha senha</a></p>
                     </form>
+                    
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function redirectToPage() {
-          window.location.href = '/template/gerencia.html';
-        }
-      </script>
 </body>
 </html>
