@@ -40,13 +40,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros['faixa_etaria'] = 'A faixa etária é obrigatória.';
     }
 
-    
+    // Se não houver erros, insere os dados no banco
     if (empty($erros)) {
-        $_SESSION['sucesso'] = "Agendamento realizado com sucesso! Aguarde que entraremos em contato.";
-        header('Location: /SitedoMuseu/template/agendamento.php');
-        exit();
+        try {
+            // Conexão com o banco de dados
+            $servidor = 'localhost';
+            $usuario = 'root';
+            $senha = '';
+            $banco = 'bdMuseu';
+
+            $dsn = "mysql:host=$servidor;dbname=$banco;charset=utf8";
+            $conexao = new PDO($dsn, $usuario, $senha);
+            $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Inserção no banco de dados
+            $sql = "INSERT INTO visita (nome_responsavel, nome_escola, dia_pretendido, horario, n_visitante, telefone, email, faixa_etaria) 
+                    VALUES (:nome_responsavel, :nome_escola, :dia_pretendido, :horario, :n_visitante, :telefone, :email, :faixa_etaria)";
+            $stmt = $conexao->prepare($sql);
+            $stmt->execute([
+                ':nome_responsavel' => $dados['nome_responsavel'],
+                ':nome_escola' => $dados['nome_escola'],
+                ':dia_pretendido' => $dados['dia_pretendido'],
+                ':horario' => $dados['horario'],
+                ':n_visitante' => $dados['n_visitante'],
+                ':telefone' => $dados['telefone'],
+                ':email' => $dados['email'],
+                ':faixa_etaria' => $dados['faixa_etaria']
+            ]);
+
+            $_SESSION['sucesso'] = "Agendamento realizado com sucesso! Aguarde que entraremos em contato.";
+            header('Location: /SitedoMuseu/template/agendamento.php');
+            exit();
+        } catch (PDOException $e) {
+            echo "Erro ao conectar ou cadastrar: " . $e->getMessage();
+        }
     }
 
+    // Caso haja erros, armazena na sessão e redireciona de volta ao formulário
     $_SESSION['erros'] = $erros;
     $_SESSION['dados'] = $dados;
 
