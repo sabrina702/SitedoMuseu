@@ -28,7 +28,7 @@ try
             nome VARCHAR(100) NOT NULL,
             email VARCHAR(100) NOT NULL UNIQUE,
             sobre TEXT,
-            perfil ENUM('monitor', 'professor(a)') NOT NULL
+            perfil ENUM('monitor(a)', 'professor(a)') NOT NULL
         );
     ";
     $conexao->exec($sql);

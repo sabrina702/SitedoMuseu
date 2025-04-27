@@ -1,17 +1,20 @@
 <?php
 session_start();
 
+$servidor = 'localhost';
+$usuario = 'root';
+$senha = '';
+$banco = 'bdMuseu';
+
 $erros = [];
 $dados = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Coleta os dados do formulário
     $dados['nome'] = $_POST['nome'] ?? '';
     $dados['email'] = $_POST['email'] ?? '';
     $dados['sobre'] = $_POST['sobre'] ?? '';
     $dados['perfil'] = $_POST['perfil'] ?? '';
 
-    // Validações
     if (empty($dados['nome'])) {
         $erros['nome'] = 'O nome é obrigatório.';
     }
@@ -27,17 +30,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros['perfil'] = 'O perfil é obrigatório.';
     }
 
-    // Se não houver erros, processa os dados
     if (empty($erros)) {
-        $_SESSION['sucesso'] = 'Membro adicionado com sucesso!';
+        try {
+            $dsn = "mysql:host=$servidor;dbname=$banco;charset=utf8"; 
+            $conexao = new PDO($dsn, $usuario, $senha);
+            $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "INSERT INTO membro (nome, email, sobre, perfil) VALUES (:nome, :email, :sobre, :perfil)";
+            $stmt = $conexao->prepare($sql);
+            $stmt->execute([
+                ':nome'  => $dados['nome'],
+                ':email' => $dados['email'],
+                ':sobre' => $dados['sobre'],
+                ':perfil'=> $dados['perfil']
+            ]);
+
+            $_SESSION['sucesso'] = 'Membro adicionado com sucesso!';
+            header('Location: /SitedoMuseu/template/addMembro.php');
+            exit();
+
+        } catch (PDOException $e) {
+            $_SESSION['erros']['banco'] = "Erro ao cadastrar: " . $e->getMessage();
+            header('Location: /SitedoMuseu/template/addMembro.php');
+            exit();
+        }
+    } else {
+        $_SESSION['erros'] = $erros;
+        $_SESSION['dados'] = $dados;
         header('Location: /SitedoMuseu/template/addMembro.php');
         exit();
     }
-
-    // Caso haja erros, armazena na sessão e redireciona de volta ao formulário
-    $_SESSION['erros'] = $erros;
-    $_SESSION['dados'] = $dados;
-    header('Location: /SitedoMuseu/template/addMembro.php');
-    exit();
 }
 ?>
