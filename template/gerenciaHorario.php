@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    $sucesso = $_SESSION['sucesso'] ?? null;
+    $erros = $_SESSION['erros'] ?? [];
+    $dados = $_SESSION['dados'] ?? [];
+    unset($_SESSION['sucesso']);
+    unset($_SESSION['erros']);
+    unset($_SESSION['dados']);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -25,7 +35,45 @@
       <header class="header">
         <h1>Gerenciamento do Horário de Funcionamento</h1>
       </header>
+      <section class="form-section">
+    <form action="/SitedoMuseu/php/validaHorario.php" method="POST" class="form-horario">
+      <?php if ($sucesso): ?>
+        <div class="alert alert-success" role="alert">
+            <?= htmlspecialchars($sucesso) ?>
+        </div>
+      <?php endif; ?>
 
+      <div class="form-group">
+        <label for="diaSemana">Dia da Semana</label>
+        <input type="text" id="diaSemana" name="diaSemana" placeholder="Ex: Segunda-feira" 
+              value="<?= htmlspecialchars($dados['diaSemana'] ?? '') ?>">
+        <?php if (isset($erros['diaSemana'])): ?>
+          <span class="errors"><?= htmlspecialchars($erros['diaSemana']) ?></span>
+        <?php endif; ?>
+      </div>
+
+      <div class="form-group">
+        <label for="horaAbertura">Hora de Abertura</label>
+        <input type="time" id="horaAbertura" name="horaAbertura" 
+              value="<?= htmlspecialchars($dados['horaAbertura'] ?? '') ?>">
+        <?php if (isset($erros['horaAbertura'])): ?>
+          <span class="errors"><?= htmlspecialchars($erros['horaAbertura']) ?></span>
+        <?php endif; ?>
+      </div>
+
+      <div class="form-group">
+        <label for="horaFechamento">Hora de Fechamento</label>
+        <input type="time" id="horaFechamento" name="horaFechamento" 
+              value="<?= htmlspecialchars($dados['horaFechamento'] ?? '') ?>">
+        <?php if (isset($erros['horaFechamento'])): ?>
+          <span class="errors"><?= htmlspecialchars($erros['horaFechamento']) ?></span>
+        <?php endif; ?>
+      </div>
+
+
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+    </form>
+  </section>
 
     </main>
 
