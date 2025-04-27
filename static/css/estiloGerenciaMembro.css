@@ -15,6 +15,20 @@
     min-height: 100vh;
   }
   
+  .btn-add {
+    background: #0e4711;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  .btn-add:hover {
+    background: #3e8e41;
+  }
   .sidebar {
     width: 350px;
     background: #0e4711;
@@ -70,5 +84,60 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .team-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  
+  .team-table th, .team-table td {
+    padding: 16px 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .team-table th {
+    background-color: #0e4711; /* Verde escuro bonito */
+    color: #fff;
+  }
+  
+  .team-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Botões */
+  .btn-edit, .btn-delete {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-edit {
+    background-color: #0e4711;
+  }
+  
+  .btn-edit:hover {
+    background-color: #0d8112;
+  }
+  
+  .btn-delete {
+    background-color: #d11a2a;
+  }
+  
+  .btn-delete:hover {
+    background-color: #b00f1f;
+  }
+  
+  
   
   
