@@ -66,9 +66,10 @@ unset($_SESSION['dados']);
                 <div class="form-group">
                     <label for="perfil">Perfil:</label>
                     <select id="perfil" name="perfil">
-                        <option value="monitor" <?= (isset($dados['perfil']) && $dados['perfil'] == 'monitor') ? 'selected' : '' ?>>Monitor(a)</option>
-                        <option value="professor" <?= (isset($dados['perfil']) && $dados['perfil'] == 'professor') ? 'selected' : '' ?>>Professor(a)</option>
-                    </select>
+                    <option value="monitor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'monitor(a)') ? 'selected' : '' ?>>Monitor(a)</option>
+                    <option value="professor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'professor(a)') ? 'selected' : '' ?>>Professor(a)</option>
+                </select>
+
                     <?php if (isset($erros['perfil'])): ?>
                         <span class="error-message"><?= htmlspecialchars($erros['perfil']) ?></span>
                     <?php endif; ?>
