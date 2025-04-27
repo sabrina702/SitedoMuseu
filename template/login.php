@@ -35,7 +35,7 @@ unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);
                         </div>
                     <?php endif; ?>
 
-                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php">
+                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php" onsubmit="validarFormulario(event)">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com"
