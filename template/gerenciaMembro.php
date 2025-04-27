@@ -14,10 +14,7 @@
       <img src="/SitedoMuseu/static/assets/logo.png" alt="Logo do Museu" class="logo">
       <h2>Museu de Ciências Naturais José Alencar de Carvalho</h2>
       <nav>
-      <a class="active" href="/SitedoMuseu/template/gerencia.php"><i class="bi bi-people-fill"></i>Visão geral</a> 
-      <a href="#" onclick="openModal()"><i class="bi bi-person-plus-fill"></i> Adicionar membro</a>
-      <a href="#" onclick="openEditModal()"><i class="bi bi-pencil-square"></i> Editar membro</a>
-              
+        <a class="active" href="/SitedoMuseu/template/gerencia.php"  ><i class="bi bi-people-fill"></i>Visão geral</a> 
       </nav>
       <a href="/SitedoMuseu/index.html" class="logout">
         <i class="bi bi-box-arrow-right"></i> Sair
@@ -27,9 +24,49 @@
     <main class="main-content">
         <header class="header">
             <h1>Gerenciamento da Equipe</h1>
+            <a href="/SitedoMuseu/template/addMembro.php"  style="text-decoration: none" class="btn-add"> + Novo Membro </a>
         </header>
     
+        <section class="table-section">
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Sobre</th>
+              <th>Perfil</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Maria Silva</td>
+              <td>maria@email.com</td>
+              <td>Graduanda em Biologia, bolsista PIBIC.</td>
+              <td>Monitor(a)</td>
+              <td>
+                <a href="/SitedoMuseu/template/editaMembro.php" class="btn-edit"><i class="bi bi-pencil-square"></i> Editar</a>
+                <a href="/SitedoMuseu/template/editaMembro.php" class="btn-delete"><i class="bi bi-trash"></i> Excluir</a>
+              </td>
+            </tr>
+            <tr>
+              <td>João Souza</td>
+              <td>joao@email.com</td>
+              <td>Voluntário no setor de Paleontologia.</td>
+              <td>Professor(a)</td>
+              <td>
+              <a href="/SitedoMuseu/template/editaMembro.php" class="btn-edit"><i class="bi bi-pencil-square"></i> Editar</a>
+              <a href="/SitedoMuseu/template/editaMembro.php" class="btn-delete"><i class="bi bi-trash"></i> Excluir</a>
+              </td>
+            </tr>
+            <!-- Mais linhas aqui -->
+          </tbody>
+        </table>
+      </section>
+      <!-- TABELA TERMINA AQUI -->
+
     </main>
    
+    
 </body>
 </html>
