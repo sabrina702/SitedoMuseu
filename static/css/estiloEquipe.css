@@ -1,0 +1,30 @@
+.equipe-card {
+  border-left: 6px solid #14532d; 
+  border-radius: 10px;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.equipe-card:hover {
+  background-color: #eef7ee;
+}
+
+.equipe-card .card-title {
+  font-weight: 600;
+  color: #14532d;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.equipe-card .card-perfil {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #000;
+}
+
+.equipe-card .card-text {
+  font-size: 1rem;
+  color: #000;
+  text-align: justify;
+}
