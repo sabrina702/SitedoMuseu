@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             $_SESSION['sucesso'] = 'Membro adicionado com sucesso!';
-            header('Location: /SitedoMuseu/template/addMembro.php');
+            header('Location: /SitedoMuseu/template/gerenciaMembro.php');
             exit();
 
         } catch (PDOException $e) {

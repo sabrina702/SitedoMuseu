@@ -1,36 +1,72 @@
 <?php
-session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+  session_start();
+  if (!isset($_SESSION['usuario_id'])) {
+      header('Location: /SitedoMuseu/template/login.php');
+      exit();
+  }
 
-require_once '../bd/conexao.php';
+  require_once '../bd/conexao.php';
 
-$sucesso = $_SESSION['sucesso'] ?? null;
-$erros = $_SESSION['erros'] ?? [];
-$dados = $_SESSION['dados'] ?? [];
+  $sucesso = $_SESSION['sucesso'] ?? null;
+  $erros = $_SESSION['erros'] ?? [];
+  $dados = $_SESSION['dados'] ?? [];
 
-unset($_SESSION['sucesso'], $_SESSION['erros'], $_SESSION['dados']);
+  unset($_SESSION['sucesso'], $_SESSION['erros'], $_SESSION['dados']);
 
-// VERIFICA SE O ID FOI PASSADO NA URL
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("ID inválido.");
-}
+  if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+      die("ID inválido.");
+  }
 
-$id = intval($_GET['id']);
+ $id = (int) $_GET['id'];
 
-// SE NÃO TIVER DADOS NA SESSÃO, BUSCA DO BANCO
-if (empty($dados)) {
-    $stmt = $pdo->prepare("SELECT * FROM membro WHERE id = ?");
-    $stmt->execute([$id]);
-    $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+  if (
+      $_SESSION['usuario_perfil'] !== 'Coordenador(a) do Museu' &&
+      (int) $_SESSION['usuario_id'] !== $id
+  ) {
+      echo '<!DOCTYPE html>
+      <html lang="pt-br">
+      <head>
+          <meta charset="UTF-8">
+          <title>Acesso negado</title>
+          <meta http-equiv="refresh" content="2;url=/SitedoMuseu/template/gerenciaMembro.php">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+          <style>
+              body {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 100vh;
+                  background-color: #f8f9fa;
+              }
+              .alert {
+                  max-width: 500px;
+                  text-align: center;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="alert alert-danger shadow p-4 rounded">
+              <h4 class="alert-heading">Acesso negado!</h4>
+              <p>Você não pode editar o perfil de outro membro.</p>
+              <hr>
+              <p class="mb-0">Você será redirecionado em instantes...</p>
+          </div>
+      </body>
+      </html>';
+      exit();
+  }
 
-    if (!$dados) {
-        die("Membro não encontrado.");
-    }
+  if (empty($dados)) {
+      $stmt = $pdo->prepare("SELECT * FROM membro WHERE id = ?");
+      $stmt->execute([$id]);
+      $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $dados['senha'] = ''; // nunca mostramos a senha real
-}
+      if (!$dados) {
+          die("Membro não encontrado.");
+      }
+
+      $dados['senha'] = ''; 
+  }
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +93,7 @@ if (empty($dados)) {
         <a href="/SitedoMuseu/template/gerenciaMembro.php" class="btn-add"> <i class="bi bi-arrow-left"></i> Voltar </a>
       </header>
 
-       <form method="POST" action="/SitedoMuseu/php/valida_editar_membro.php">
+      <form method="POST" action="/SitedoMuseu/php/valida_editar_membro.php">
         <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
 
         <?php if (!empty($sucesso)): ?>
