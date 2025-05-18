@@ -57,7 +57,7 @@
         <div class="content mt-4">
             <div class="form-container">
                 
-                <h1>Agende sua visita</h1>
+                <h1>Solicite sua vista</h1>
 
                 <?php if ($sucesso): ?>
                 <div class="alert alert-success" role="alert">
@@ -67,18 +67,18 @@
 
                 <form method="POST" action="/SitedoMuseu/php/validacaoVisita.php">
                 <div class="campo">
-                    <label for="nome_responsavel">Nome do Responsável:</label>
-                    <input type="text" name="nome_responsavel" id="nome_responsavel" placeholder="Ex: Maria Silva"
-                    value="<?= htmlspecialchars($dados['nome_responsavel'] ?? '') ?>">
-                    <?php if (isset($erros['nome_responsavel'])): ?>
-                        <span class="text-danger"><?= htmlspecialchars($erros['nome_responsavel']) ?></span>
+                    <label for="telefone_escola">Telefone de contato</label>
+                    <input type="text" name="telefone_escola" id="telefone_escola" placeholder="Ex: Maria Silva"
+                    value="<?= htmlspecialchars($dados['telefone_escola'] ?? '') ?>"required>
+                    <?php if (isset($erros['telefone_escola'])): ?>
+                        <span class="text-danger"><?= htmlspecialchars($erros['telefone_escola']) ?></span>
                     <?php endif; ?>
                 </div>
 
                 <div class="campo">
                     <label for="nome_escola">Nome da Escola:</label>
                     <input type="text" name="nome_escola" id="nome_escola" placeholder="Ex: Escola Estadual ABC"
-                    value="<?= htmlspecialchars($dados['nome_escola'] ?? '') ?>">
+                    value="<?= htmlspecialchars($dados['nome_escola'] ?? '') ?>"required>
                     <?php if (isset($erros['nome_escola'])): ?>
                         <span class="text-danger"><?= htmlspecialchars($erros['nome_escola']) ?></span>
                     <?php endif; ?>
@@ -86,63 +86,76 @@
 
                 <div class="grid-dupla">
                     <div class="campo">
-                        <label for="dia_pretendido">Data Pretendida:</label>
-                        <input type="date" name="dia_pretendido" id="dia_pretendido" 
-                        value="<?= htmlspecialchars($dados['dia_pretendido'] ?? '') ?>">
-                        <?php if (isset($erros['dia_pretendido'])): ?>
-                            <span class="text-danger"><?= htmlspecialchars($erros['dia_pretendido']) ?></span>
+                        <label for="data_pretendida">Data Pretendida:</label>
+                        <input type="date" name="data_pretendida" id="data_pretendida" 
+                        value="<?= htmlspecialchars($dados['data_pretendida'] ?? '') ?>"required>
+                        <?php if (isset($erros['data_pretendida'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['data_pretendida']) ?></span>
                         <?php endif; ?>
                     </div>
 
                     <div class="campo">
-                        <label for="horario">Horário:</label>
-                        <input type="time" name="horario" id="horario" 
-                        value="<?= htmlspecialchars($dados['horario'] ?? '') ?>">
-                        <?php if (isset($erros['horario'])): ?>
-                            <span class="text-danger"><?= htmlspecialchars($erros['horario']) ?></span>
+                        <label for="hora_pretendida">Horário Pretendido:</label>
+                        <input type="time" name="hora_pretendida" id="hora_pretendida" 
+                        value="<?= htmlspecialchars($dados['hora_pretendida'] ?? '') ?>"required>
+                        <?php if (isset($erros['hora_pretendida'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['hora_pretendida']) ?></span>
                         <?php endif; ?>
                     </div>
-                </div>
-
-                <div class="campo">
-                    <label for="n_visitante">Número de Visitantes:</label>
-                    <input type="number" name="n_visitante" id="n_visitante" placeholder="Ex: 30"
-                    value="<?= htmlspecialchars($dados['n_visitante'] ?? '') ?>">
-                    <?php if (isset($erros['n_visitante'])): ?>
-                        <span class="text-danger"><?= htmlspecialchars($erros['n_visitante']) ?></span>
-                    <?php endif; ?>
                 </div>
 
                 <div class="grid-dupla">
                     <div class="campo">
-                        <label for="telefone">Telefone:</label>
-                        <input type="text" name="telefone" id="telefone" placeholder="Ex: (35) 99999-9999"
-                        value="<?= htmlspecialchars($dados['telefone'] ?? '') ?>">
-                        <?php if (isset($erros['telefone'])): ?>
-                            <span class="text-danger"><?= htmlspecialchars($erros['telefone']) ?></span>
+                        <label for="quantidade_alunos">Número de Visitantes:</label>
+                        <input type="number" name="quantidade_alunos" id="quantidade_alunos" placeholder="Ex: 30"
+                        value="<?= htmlspecialchars($dados['quantidade_alunos'] ?? '') ?>"required>
+                        <?php if (isset($erros['quantidade_alunos'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['quantidade_alunos']) ?></span>
                         <?php endif; ?>
                     </div>
 
                     <div class="campo">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" id="email" placeholder="Ex: exemplo@escola.com"
-                        value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
-                        <?php if (isset($erros['email'])): ?>
-                            <span class="text-danger"><?= htmlspecialchars($erros['email']) ?></span>
+                        <label for="perfil_alunos">Faixa Etária ou Escolaridade dos Visitantes:</label>
+                        <input type="text" name="perfil_alunos" id="perfil_alunos" placeholder="Ex: 10 a 12 anos"
+                        value="<?= htmlspecialchars($dados['perfil_alunos'] ?? '') ?>"required>
+                        <?php if (isset($erros['perfil_alunos'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['perfil_alunos']) ?></span>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div class="campo">
-                    <label for="faixa_etaria">Faixa Etária dos Visitantes:</label>
-                    <input type="text" name="faixa_etaria" id="faixa_etaria" placeholder="Ex: 10 a 12 anos"
-                    value="<?= htmlspecialchars($dados['faixa_etaria'] ?? '') ?>">
-                    <?php if (isset($erros['faixa_etaria'])): ?>
-                        <span class="text-danger"><?= htmlspecialchars($erros['faixa_etaria']) ?></span>
-                    <?php endif; ?>
+                    <div class="campo">
+                        <label for="nome_responsavel">Nome do Resposável:</label>
+                        <input type="text" name="nome_responsavel" id="nome_responsavel" placeholder="Ex: Bruna Maria"
+                        value="<?= htmlspecialchars($dados['nome_responsavel'] ?? '') ?>"required>
+                        <?php if (isset($erros['nome_responsavel'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['nome_responsavel']) ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                <div class="grid-dupla">
+                    <div class="campo">
+                        <label for="telefone_responsavel">Telefone do Resposável:</label>
+                        <input type="text" name="telefone_responsavel" id="telefone_responsavel" placeholder="Ex: (35) 99999-9999"
+                        value="<?= htmlspecialchars($dados['telefone_responsavel'] ?? '') ?>"required>
+                        <?php if (isset($erros['telefone_responsavel'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['telefone_responsavel']) ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="email_responsavel">Email do Resposável:</label>
+                        <input type="email" name="email_responsavel" id="email_responsavel" placeholder="Ex: exemplo@escola.com"
+                        value="<?= htmlspecialchars($dados['email_responsavel'] ?? '') ?>"required>
+                        <?php if (isset($erros['email_responsavel'])): ?>
+                            <span class="text-danger"><?= htmlspecialchars($erros['email_responsavel']) ?></span>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
-                <button type="submit">Agendar Visita</button>
+                
+
+                <button type="submit">Solicitar Visita</button>
                 </form>
             </div>
         </div>
@@ -176,8 +189,7 @@
             <h6 class="mb-0">Desenvolvido por Emily e Sabrina – Sistemas de Informação</h6>
         </div>
     </footer>
-
-    
+  
 
 </body>
 </html>

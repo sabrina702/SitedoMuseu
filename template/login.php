@@ -35,11 +35,11 @@ unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);
                         </div>
                     <?php endif; ?>
 
-                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php" onsubmit="validarFormulario(event)">
+                    <form method="POST" action="/SitedoMuseu/php/validaLogin.php">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com"
-                                   value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
+                                   value="<?= htmlspecialchars($dados['email'] ?? '') ?>"required>
                             <?php if (isset($erros['email'])): ?>
                                 <span class="text-danger"><?= htmlspecialchars($erros['email']) ?></span>
                             <?php endif; ?>
@@ -48,7 +48,7 @@ unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);
 
                         <div class="mb-4">
                             <label for="senha" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="senha" name="senha" placeholder="********">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="********" required>
                             <?php if (isset($erros['senha'])): ?>
                                 <div class="error-message text-danger"><?= htmlspecialchars($erros['senha']) ?></div>
                             <?php endif; ?>
@@ -64,37 +64,6 @@ unset($_SESSION['erros'], $_SESSION['erroLogin'], $_SESSION['dados']);
             </div>
         </div>
     </div>
-
-    <script>
-        function validarFormulario() {
-            var email = document.getElementById("email").value.trim();
-            var senha = document.getElementById("senha").value.trim();
-            var emailErro = document.getElementById("emailErro");
-            var senhaErro = document.getElementById("senhaErro");
-            var valid = true;
-
-            emailErro.textContent = "";
-            senhaErro.textContent = "";
-
-            if (!email) {
-                emailErro.textContent = "Digite um e-mail válido.";
-                valid = false;
-            } else if (!/\S+@\S+\.\S+/.test(email)) {
-                emailErro.textContent = "Formato de e-mail inválido.";
-                valid = false;
-            }
-
-            if (!senha) {
-                senhaErro.textContent = "Digite uma senha.";
-                valid = false;
-            } else if (!/[A-Za-z]/.test(senha) || !/[0-9]/.test(senha) || !/[^A-Za-z0-9]/.test(senha)) {
-                senhaErro.textContent = "A senha deve ter letras, números e símbolos.";
-                valid = false;
-            }
-
-            return valid;
-        }
-    </script>
 
 </body>
 </html>
