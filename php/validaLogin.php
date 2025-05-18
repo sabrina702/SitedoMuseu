@@ -1,37 +1,46 @@
 <?php
 session_start();
-
-$emailCorreto = 'admin@museu.com';
-$senhaCorreta = 'Admin@123';
+require_once '../bd/conexao.php';
 
 $erros = [];
-$erroLogin = '';  
+$erroLogin = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
 
-    if ($email === $emailCorreto && $senha === $senhaCorreta) {
-        $_SESSION['usuario'] = $email;
-        header('Location: /SitedoMuseu/template/gerencia.php');
-        exit();
-    } else {
-        $erroLogin = 'E-mail ou senha incorretos.';
-    }
-
-    if  (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Validação básica
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erros['email'] = 'O e-mail informado é inválido.';
     }
+    if (empty($senha)) {
+        $erros['senha'] = 'A senha é obrigatória.';
+    }
 
-    if  (!preg_match('/[A-Za-z]/', $senha) || !preg_match('/[0-9]/', $senha) || !preg_match('/[^A-Za-z0-9]/', $senha)) {
-        $erros['senha'] = 'A senha precisa conter letras, números e caracteres especiais.';
+    if (empty($erros)) {
+        $stmt = $pdo->prepare("SELECT * FROM membro WHERE email = ?");
+        $stmt->execute([$email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
+            // Login ok
+            $_SESSION['usuario_id'] = $usuario['id'];
+            $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_perfil'] = $usuario['perfil'];
+            $_SESSION['usuario_email'] = $usuario['email'];
+
+            header('Location: /SitedoMuseu/template/gerencia.php');
+            exit();
+        } else {
+            $erroLogin = 'E-mail ou senha incorretos.';
+        }
     }
 
     $_SESSION['erros'] = $erros;
-    $_SESSION['erroLogin'] = $erroLogin;  
-    $_SESSION['dados'] = ['email' => $email, 'senha' => $senha];
+    $_SESSION['erroLogin'] = $erroLogin;
+    $_SESSION['dados'] = ['email' => $email];
 
-    
     header('Location: /SitedoMuseu/template/login.php');
     exit();
 }
+?>

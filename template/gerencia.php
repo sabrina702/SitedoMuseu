@@ -1,3 +1,11 @@
+<?php
+  session_start();
+  if (!isset($_SESSION['usuario_id'])) {
+      header('Location: /SitedoMuseu/template/login.php');
+      exit();
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,7 +25,7 @@
         <a class="active" href="/SitedoMuseu/template/gerenciaMembro.php"><i class="bi bi-people-fill"></i>  Membros</a>
         <a class="active" href="/SitedoMuseu/template/gerenciaSolicitacao.php"><i class="bi bi-calendar"></i>  Solicitações</a>
       </nav>
-      <a href="/SitedoMuseu/index.html" class="logout">
+      <a href="/SitedoMuseu/template/logout.php" class="logout">
         <i class="bi bi-box-arrow-right"></i> Sair
       </a>   
     </aside>

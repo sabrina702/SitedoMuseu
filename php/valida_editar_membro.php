@@ -1,5 +1,14 @@
 <?php
 session_start();
+    if (
+        $_SESSION['usuario_perfil'] !== 'Coordenador(a) do Museu' &&
+        $_SESSION['usuario_id'] != ($_POST['id'] ?? null)
+    ) {
+        $_SESSION['sucesso'] = "Ação não permitida.";
+        header("Location: /SitedoMuseu/template/gerenciaMembro.php");
+        exit();
+    }
+
 require_once '../bd/conexao.php';
 
 $erros = [];
@@ -71,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $_SESSION['sucesso'] = "Membro atualizado com sucesso!";
-        header("Location: /SitedoMuseu/template/editaMembro.php?id=" . $dados['id']);
+        header("Location: /SitedoMuseu/template/gerenciaMembro.php?id=" . $dados['id']);
         exit();
     } catch (PDOException $e) {
         $erros['geral'] = "Erro ao atualizar: " . $e->getMessage();
