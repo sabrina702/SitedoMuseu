@@ -1,5 +1,8 @@
 <?php
 session_start();
+// Define o fuso horário de Brasília
+date_default_timezone_set('America/Sao_Paulo');
+
 
 $erros = [];
 $dados = [];
@@ -72,6 +75,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':hora_pretendida' => $dados['hora_pretendida']
             ]);
 
+            // Obtém o ID do visitante recém-cadastrado
+            $id_visitante = $conexao->lastInsertId();
+
+            // Data e hora atuais do sistema
+            $data_acao = date('Y-m-d');
+            $hora_acao = date('H:i:s');
+
+            // Cria a solicitação com data e hora atuais
+            $sqlSolicitacao = "INSERT INTO solicitacao (id_visitante, situacao, data_acao, hora_acao, id_membro) 
+                            VALUES (:id_visitante, :situacao, :data_acao, :hora_acao, :id_membro)";
+            $stmtSolicitacao = $conexao->prepare($sqlSolicitacao);
+            $stmtSolicitacao->execute([
+                ':id_visitante' => $id_visitante,
+                ':situacao' => 'Nova',
+                ':data_acao' => $data_acao,
+                ':hora_acao' => $hora_acao,
+                ':id_membro' => null  // ou algum membro padrão, ou NULL se permitido
+            ]);
+
             $_SESSION['sucesso'] = "Solicitação realizado com sucesso! Aguarde que entraremos em contato.";
             header('Location: /SitedoMuseu/template/agendamento.php');
             exit();
@@ -79,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Erro ao conectar ou cadastrar: " . $e->getMessage();
         }
     }
+
 
     // Caso haja erros, armazena na sessão e redireciona de volta ao formulário
     $_SESSION['erros'] = $erros;

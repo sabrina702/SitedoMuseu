@@ -23,8 +23,7 @@
       <h2>Museu de Ciências Naturais José Alencar de Carvalho</h2>
       <nav>
         <a class="active" href="/SitedoMuseu/template/gerenciaMembro.php"><i class="bi bi-people-fill"></i>  Membros</a>
-        <a class="active" href="/SitedoMuseu/template/gerenciaHorario.php"><i class="bi bi-clock"></i>  Horário de Funcionamento</a>
-        <a class="active" href="/SitedoMuseu/template/gerenciaVisita.php"><i class="bi bi-calendar"></i>  Visitas</a>
+        <a class="active" href="/SitedoMuseu/template/gerenciaSolicitacao.php"><i class="bi bi-calendar"></i>  Solicitações</a>
       </nav>
       <a href="/SitedoMuseu/template/logout.php" class="logout">
         <i class="bi bi-box-arrow-right"></i> Sair
