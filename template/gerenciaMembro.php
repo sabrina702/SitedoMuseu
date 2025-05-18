@@ -1,3 +1,11 @@
+<?php
+  require_once '../bd/conexao.php';
+
+  $stmt = $pdo->prepare("SELECT id, nome, email, sobre, perfil FROM membro ORDER BY nome ASC");
+  $stmt->execute();
+  $membros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -39,34 +47,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Maria Silva</td>
-              <td>maria@email.com</td>
-              <td>Graduanda em Biologia, bolsista PIBIC.</td>
-              <td>Monitor(a)</td>
-              <td>
-                <a href="/SitedoMuseu/template/editaMembro.php" class="btn-edit"><i class="bi bi-pencil-square"></i> Editar</a>
-                <a href="/SitedoMuseu/template/editaMembro.php" class="btn-delete"><i class="bi bi-trash"></i> Excluir</a>
-              </td>
-            </tr>
-            <tr>
-              <td>João Souza</td>
-              <td>joao@email.com</td>
-              <td>Voluntário no setor de Paleontologia.</td>
-              <td>Professor(a)</td>
-              <td>
-              <a href="/SitedoMuseu/template/editaMembro.php" class="btn-edit"><i class="bi bi-pencil-square"></i> Editar</a>
-              <a href="/SitedoMuseu/template/editaMembro.php" class="btn-delete"><i class="bi bi-trash"></i> Excluir</a>
-              </td>
-            </tr>
-            <!-- Mais linhas aqui -->
+            <?php foreach ($membros as $membro): ?>
+              <tr>
+                <td><?= htmlspecialchars($membro['nome']) ?></td>
+                <td><?= htmlspecialchars($membro['email']) ?></td>
+                <td><?= htmlspecialchars($membro['sobre']) ?></td>
+                <td><?= htmlspecialchars($membro['perfil']) ?></td>
+                <td>
+                  <a href="/SitedoMuseu/template/editaMembro.php?id=<?= $membro['id'] ?>" class="btn-edit">
+                    <i class="bi bi-pencil-square"></i> Editar
+                  </a>
+                  <a href="/SitedoMuseu/php/excluir_membro.php?id=<?= $membro['id'] ?>" class="btn-delete">
+                    <i class="bi bi-trash"></i> Excluir
+                  </a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </section>
-      <!-- TABELA TERMINA AQUI -->
-
     </main>
-   
-    
 </body>
+
 </html>

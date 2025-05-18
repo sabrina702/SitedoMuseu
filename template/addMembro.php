@@ -27,57 +27,67 @@ unset($_SESSION['dados']);
     </aside>
 
     <main class="main-content">
-      <header class="header">
+        <div class="header">
         <h1>Cadastrar membro</h1>
-        <a href="/SitedoMuseu/template/gerenciaMembro.php" class="btn-add"> <i class="bi bi-arrow-left"></i> Voltar </a>
-      </header>
+        <a href="/SitedoMuseu/template/gerenciaMembro.php" class="btn-add">← Voltar</a>
+        </div>
 
         <form method="POST" action="/SitedoMuseu/php/valida_add_membro.php">
-                <?php if ($sucesso): ?>
-                    <div class="alert alert-success" role="alert">
-                        <?= htmlspecialchars($sucesso) ?>
-                    </div>
-                <?php endif; ?>
+        <?php if ($sucesso): ?>
+            <div class="alert alert-success">
+            <?= htmlspecialchars($sucesso) ?>
+            </div>
+        <?php endif; ?>
 
-                <div class="form-group">
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($dados['nome'] ?? '') ?>">
-                    <?php if (isset($erros['nome'])): ?>
-                        <span class="error-message"><?= htmlspecialchars($erros['nome']) ?></span>
-                    <?php endif; ?>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
-                    <?php if (isset($erros['email'])): ?>
-                        <span class="error-message"><?= htmlspecialchars($erros['email']) ?></span>
-                    <?php endif; ?>
-                </div>
-
-                <div class="form-group">
-                    <label for="sobre">Sobre:</label>
-                    <textarea id="sobre" name="sobre"><?= htmlspecialchars($dados['sobre'] ?? '') ?></textarea>
-                    <?php if (isset($erros['sobre'])): ?>
-                        <span class="error-message"><?= htmlspecialchars($erros['sobre']) ?></span>
-                    <?php endif; ?>
-                </div>
-
-                <div class="form-group">
-                    <label for="perfil">Perfil:</label>
-                    <select id="perfil" name="perfil">
-                    <option value="monitor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'monitor(a)') ? 'selected' : '' ?>>Monitor(a)</option>
-                    <option value="professor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'professor(a)') ? 'selected' : '' ?>>Professor(a)</option>
-                </select>
-
-                    <?php if (isset($erros['perfil'])): ?>
-                        <span class="error-message"><?= htmlspecialchars($erros['perfil']) ?></span>
-                    <?php endif; ?>
-                </div>
-
-                <button  class="btn-add-membro" type="submit">Cadastrar</button>
-            </form>
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($dados['nome'] ?? '') ?>">
+            <?php if (isset($erros['nome'])): ?>
+            <span class="error-message"><?= htmlspecialchars($erros['nome']) ?></span>
+            <?php endif; ?>
         </div>
+
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
+                <?php if (isset($erros['email'])): ?>
+                <span class="error-message"><?= htmlspecialchars($erros['email']) ?></span>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" value="<?= htmlspecialchars($dados['senha'] ?? '') ?>" style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;
+            background-color: #f9f9f9; transition: border-color 0.3s; width: 100%;">
+            <?php if (isset($erros['senha'])): ?>
+                <span class="error-message"><?= htmlspecialchars($erros['senha']) ?></span>
+            <?php endif; ?>
+            </div>
+
+        <div class="form-group">
+            <label for="sobre">Sobre:</label>
+            <textarea id="sobre" name="sobre"><?= htmlspecialchars($dados['sobre'] ?? '') ?></textarea>
+            <?php if (isset($erros['sobre'])): ?>
+            <span class="error-message"><?= htmlspecialchars($erros['sobre']) ?></span>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label for="perfil">Perfil:</label>
+            <select id="perfil" name="perfil">
+            <option value="">-- Selecione --</option>
+            <option value="Monitor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'Monitor(a)') ? 'selected' : '' ?>>Monitor(a)</option>
+            <option value="Professor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'Professor(a)') ? 'selected' : '' ?>>Professor(a)</option>
+            <option value="Coordenador(a) do Museu" <?= (isset($dados['perfil']) && $dados['perfil'] == 'Coordenador(a) do Museu') ? 'selected' : '' ?>>Coordenador(a) do Museu</option>
+            </select>
+            <?php if (isset($erros['perfil'])): ?>
+            <span class="error-message"><?= htmlspecialchars($erros['perfil']) ?></span>
+            <?php endif; ?>
+        </div>
+
+        <button type="submit" class="btn-add-membro">Cadastrar</button>
+        </form>
     </main>
   </div>
 </body>
