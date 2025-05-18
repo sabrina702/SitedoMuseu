@@ -1,3 +1,28 @@
+<?php
+require_once '../bd/conexao.php'; // Aqui deve definir $pdo, conexão PDO
+
+function buscarSolicitacoesPorSituacao($pdo, $situacao) {
+    $sql = "SELECT s.id, s.data_acao AS data_visita, s.hora_acao AS hora_visita, s.situacao,
+                   v.nome_escola AS escola, v.nome_responsavel AS responsavel,
+                   m.nome AS nome_membro
+            FROM solicitacao s
+            JOIN visitante v ON s.id_visitante = v.id
+            LEFT JOIN membro m ON s.id_membro = m.id
+            WHERE s.situacao = ?
+            ORDER BY s.id DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$situacao]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$situacoes = ['Nova', 'Em análise', 'Agendado', 'Concluído'];
+$solicitacoesPorSituacao = [];
+
+foreach ($situacoes as $situacao) {
+    $solicitacoesPorSituacao[$situacao] = buscarSolicitacoesPorSituacao($pdo, $situacao);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,42 +65,145 @@
 
       <!-- Conteúdo das abas -->
       <div class="tab-content active" id="nova">
-        <div class="solicitacao">
-        <div class="solicitacao-resumo">
-          <div class="escola-info">
-            <strong>Escola:</strong> Escola Municipal João Silva
-          </div>
-          <div class="data-hora">
-            <strong>Data:</strong> 20/05/2025 |
-            <strong>Hora:</strong> 14:00
-          </div>
-          <button class="abrir-btn">Abrir</button>
+  <?php foreach ($solicitacoesPorSituacao['Nova'] as $solicitacao): ?>
+    <div class="solicitacao">
+      <div class="solicitacao-resumo">
+        <div class="escola-info">
+          <strong>Escola:</strong> <?= htmlspecialchars($solicitacao['escola']) ?>
         </div>
+        <div class="data-hora">
+          <strong>Data:</strong> <?= date('d/m/Y', strtotime($solicitacao['data_visita'])) ?> |
+          <strong>Hora:</strong> <?= htmlspecialchars($solicitacao['hora_visita']) ?>
+        </div>
+        <button class="abrir-btn">Abrir</button>
+      </div>
 
-        <div class="solicitacao-detalhes">
-          <p><strong>Membro Responsável:</strong> Professora Ana Maria</p>
-          <!-- Se não houver responsável, use: <p><strong>Responsável:</strong> Nenhum membro responsável</p> -->
+      <div class="solicitacao-detalhes" style="display:none;">
+        <p>
+          <strong>Membro Respon:</strong>
+          <?= htmlspecialchars($solicitacao['nome_membro'] ?: 'Nenhum membro responsável') ?>
+        </p>
 
+        <form class="form-situacao" action="editarVisita.php" method="POST">
+          <input type="hidden" name="id" value="<?= $solicitacao['id'] ?>">
           <label for="situacao">Situação:</label>
-          <select class="situacao-select">
-            <option value="Nova">Nova</option>
-            <option value="Em análise">Em análise</option>
-            <option value="Agendado">Agendado</option>
-            <option value="Concluído">Concluído</option>
+          <select name="situacao" class="situacao-select">
+            <option value="Nova" <?= $solicitacao['situacao'] == 'Nova' ? 'selected' : '' ?>>Nova</option>
+            <option value="Em análise" <?= $solicitacao['situacao'] == 'Em análise' ? 'selected' : '' ?>>Em análise</option>
+            <option value="Agendado" <?= $solicitacao['situacao'] == 'Agendado' ? 'selected' : '' ?>>Agendado</option>
+            <option value="Concluído" <?= $solicitacao['situacao'] == 'Concluído' ? 'selected' : '' ?>>Concluído</option>
           </select>
+          <button class="button-salvar" type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+  <?php endforeach; ?>
+</div>
+
+      <div class="tab-content" id="analise">
+        <?php foreach ($solicitacoesPorSituacao['Em análise'] as $solicitacao): ?>
+    <div class="solicitacao">
+      <div class="solicitacao-resumo">
+        <div class="escola-info">
+          <strong>Escola:</strong> <?= htmlspecialchars($solicitacao['escola']) ?>
         </div>
+        <div class="data-hora">
+          <strong>Data:</strong> <?= date('d/m/Y', strtotime($solicitacao['data_visita'])) ?> |
+          <strong>Hora:</strong> <?= htmlspecialchars($solicitacao['hora_visita']) ?>
+        </div>
+        <button class="abrir-btn">Abrir</button>
       </div>
 
-        <p>Solicitações novas aparecerão aqui.</p>
+      <div class="solicitacao-detalhes" style="display:none;">
+        <p>
+          <strong>Membro Respon:</strong>
+          <?= htmlspecialchars($solicitacao['nome_membro'] ?: 'Nenhum membro responsável') ?>
+        </p>
+
+        <form class="form-situacao" action="editarVisita.php" method="POST">
+          <input type="hidden" name="id" value="<?= $solicitacao['id'] ?>">
+          <label for="situacao">Situação:</label>
+          <select name="situacao" class="situacao-select">
+            <option value="Nova" <?= $solicitacao['situacao'] == 'Nova' ? 'selected' : '' ?>>Nova</option>
+            <option value="Em análise" <?= $solicitacao['situacao'] == 'Em análise' ? 'selected' : '' ?>>Em análise</option>
+            <option value="Agendado" <?= $solicitacao['situacao'] == 'Agendado' ? 'selected' : '' ?>>Agendado</option>
+            <option value="Concluído" <?= $solicitacao['situacao'] == 'Concluído' ? 'selected' : '' ?>>Concluído</option>
+          </select>
+          <button class="button-salvar" type="submit">Salvar</button>
+        </form>
       </div>
-      <div class="tab-content" id="analise">
-        <p>Solicitações em análise aparecerão aqui.</p>
+    </div>
+  <?php endforeach; ?>
       </div>
       <div class="tab-content" id="agendado">
-        <p>Solicitações agendadas aparecerão aqui.</p>
+         <?php foreach ($solicitacoesPorSituacao['Agendado'] as $solicitacao): ?>
+    <div class="solicitacao">
+      <div class="solicitacao-resumo">
+        <div class="escola-info">
+          <strong>Escola:</strong> <?= htmlspecialchars($solicitacao['escola']) ?>
+        </div>
+        <div class="data-hora">
+          <strong>Data:</strong> <?= date('d/m/Y', strtotime($solicitacao['data_visita'])) ?> |
+          <strong>Hora:</strong> <?= htmlspecialchars($solicitacao['hora_visita']) ?>
+        </div>
+        <button class="abrir-btn">Abrir</button>
+      </div>
+
+      <div class="solicitacao-detalhes" style="display:none;">
+        <p>
+          <strong>Membro Respon:</strong>
+          <?= htmlspecialchars($solicitacao['nome_membro'] ?: 'Nenhum membro responsável') ?>
+        </p>
+
+        <form class="form-situacao" action="editarVisita.php" method="POST">
+          <input type="hidden" name="id" value="<?= $solicitacao['id'] ?>">
+          <label for="situacao">Situação:</label>
+          <select name="situacao" class="situacao-select">
+            <option value="Nova" <?= $solicitacao['situacao'] == 'Nova' ? 'selected' : '' ?>>Nova</option>
+            <option value="Em análise" <?= $solicitacao['situacao'] == 'Em análise' ? 'selected' : '' ?>>Em análise</option>
+            <option value="Agendado" <?= $solicitacao['situacao'] == 'Agendado' ? 'selected' : '' ?>>Agendado</option>
+            <option value="Concluído" <?= $solicitacao['situacao'] == 'Concluído' ? 'selected' : '' ?>>Concluído</option>
+          </select>
+          <button class="button-salvar" type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+  <?php endforeach; ?>
       </div>
       <div class="tab-content" id="concluido">
-        <p>Solicitações concluídas aparecerão aqui.</p>
+         <?php foreach ($solicitacoesPorSituacao['Concluído'] as $solicitacao): ?>
+    <div class="solicitacao">
+      <div class="solicitacao-resumo">
+        <div class="escola-info">
+          <strong>Escola:</strong> <?= htmlspecialchars($solicitacao['escola']) ?>
+        </div>
+        <div class="data-hora">
+          <strong>Data:</strong> <?= date('d/m/Y', strtotime($solicitacao['data_visita'])) ?> |
+          <strong>Hora:</strong> <?= htmlspecialchars($solicitacao['hora_visita']) ?>
+        </div>
+        <button class="abrir-btn">Abrir</button>
+      </div>
+
+      <div class="solicitacao-detalhes" style="display:none;">
+        <p>
+          <strong>Membro Respon:</strong>
+          <?= htmlspecialchars($solicitacao['nome_membro'] ?: 'Nenhum membro responsável') ?>
+        </p>
+
+        <form class="form-situacao" action="editarVisita.php" method="POST">
+          <input type="hidden" name="id" value="<?= $solicitacao['id'] ?>">
+          <label for="situacao">Situação:</label>
+          <select name="situacao" class="situacao-select">
+            <option value="Nova" <?= $solicitacao['situacao'] == 'Nova' ? 'selected' : '' ?>>Nova</option>
+            <option value="Em análise" <?= $solicitacao['situacao'] == 'Em análise' ? 'selected' : '' ?>>Em análise</option>
+            <option value="Agendado" <?= $solicitacao['situacao'] == 'Agendado' ? 'selected' : '' ?>>Agendado</option>
+            <option value="Concluído" <?= $solicitacao['situacao'] == 'Concluído' ? 'selected' : '' ?>>Concluído</option>
+          </select>
+          <button class="button-salvar" type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+  <?php endforeach; ?>
       </div>
     </section>
 
@@ -99,6 +227,33 @@
     });
   });
 </script>
+
+<script>
+  document.querySelectorAll('.form-situacao').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const idSolicitacao = formData.get('id');
+    const novaSituacao = formData.get('situacao');
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    }).then(response => response.text())
+      .then(data => {
+        if(data.trim() === 'OK'){
+          alert('Situação atualizada com sucesso!');
+    location.reload();
+        } else {
+          alert('Erro ao atualizar situação.');
+        }
+      })
+      .catch(err => alert('Erro na comunicação com o servidor.'));
+  });
+});
+</script>
+  
 
 <script>
   document.querySelectorAll(".abrir-btn").forEach(btn => {
