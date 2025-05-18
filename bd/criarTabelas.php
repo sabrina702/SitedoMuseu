@@ -49,7 +49,7 @@ try {
             hora_acao TIME NOT NULL,
             situacao ENUM('Nova', 'Em análise', 'Agendado', 'Concluído') NOT NULL DEFAULT 'Nova',
             id_visitante INT NOT NULL,
-            id_membro INT NOT NULL,
+            id_membro INT NULL,
             FOREIGN KEY (id_visitante) REFERENCES visitante(id),
             FOREIGN KEY (id_membro) REFERENCES membro(id)
         );
