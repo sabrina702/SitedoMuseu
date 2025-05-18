@@ -1,3 +1,11 @@
+<?php
+  require_once "../bd/conexao.php";
+
+  $stmt = $pdo->prepare("SELECT nome, perfil, sobre FROM membro ORDER BY nome ASC");
+  $stmt->execute();
+  $membros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,6 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/SitedoMuseu/static/css/estiloGeral.css">
     <link rel="stylesheet" href="/SitedoMuseu/static/css/estiloVisitas.css">
+    <link rel="stylesheet" href="/SitedoMuseu/static/css/estiloEquipe.css">
 </head>
 <body>
 
@@ -30,7 +39,7 @@
             <div class="container d-flex justify-content-center flex-wrap gap-3">
                 <a href="/SitedoMuseu/index.html" class="nav-link-custom">INÍCIO</a>
                 <a href="/SitedoMuseu/template/sobre.html" class="nav-link-custom">SOBRE</a>
-                <a href="/SitedoMuseu/template/visitas.html" class="nav-link-custom">VISITAS</a>
+                <a href="/SitedoMuseu/template/visitas.php" class="nav-link-custom">VISITAS</a>
                 <a href="/SitedoMuseu/template/galeria.html" class="nav-link-custom">GALERIA</a>
                 <a href="/SitedoMuseu/template/agendamento.php" class="nav-link-custom">AGENDAMENTO</a>
                 <a href="/SitedoMuseu/template/contato.html" class="nav-link-custom">CONTATO</a>
@@ -84,58 +93,25 @@
             </div>
 
             <div class="container mt-5">
-                <h2 class="titulo">Conheça Nossas Monitoras</h2>
-                <div class="row justify-content-center gap-3">
-                  
-                  <div class="col-md-3 card-equipe-col">
-                    <div class="card-equipe-vertical">
-                      <div class="foto-montiora-vertical">
-                        <img src="/SitedoMuseu/static/imagens/monitora1.jpg" alt="Monitora 1">
-                      </div>
-                      <div class="informacoes">
-                        <h4>Júlia Duarte</h4>
-                        <p>Curso: Ciências Biológicas</p>
-                        <p>Período: 5º</p>
-                        <p>Sobre: Apaixonada por educação ambiental.</p>
+                <h2 class="titulo">Conheça Nossa Equipe</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
+                  <?php foreach ($membros as $membro): ?>
+                    <div class="col">
+                      <div class="card h-100 shadow-sm equipe-card">
+                        <div class="card-body">
+                          <h5 class="card-title"><?php echo htmlspecialchars($membro['nome']); ?></h5>
+                          <p class="card-perfil"><?php echo nl2br(htmlspecialchars($membro['perfil'])); ?></p>
+                          <p class="card-text"><?php echo nl2br(htmlspecialchars($membro['sobre'])); ?></p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-              
-                  <div class="col-md-3 card-equipe-col">
-                    <div class="card-equipe-vertical">
-                      <div class="foto-montiora-vertical">
-                        <img src="/SitedoMuseu/static/imagens/monitora2.jpg" alt="Monitora 2">
-                      </div>
-                      <div class="informacoes">
-                        <h4>Gabrielly Vasconcelo</h4>
-                        <p>Curso: Ciências Biológicas</p>
-                        <p>Período: 5º</p>
-                        <p>Sobre: Atua com foco em sustentabilidade.</p>
-                      </div>
-                    </div>
-                  </div>
-              
-                  <div class="col-md-3 card-equipe-col">
-                    <div class="card-equipe-vertical">
-                      <div class="foto-montiora-vertical">
-                        <img src="/SitedoMuseu/static/imagens/monitora3.jpg" alt="Monitora 3">
-                      </div>
-                      <div class="informacoes">
-                        <h4>Giovanna Rodrigues</h4>
-                        <p>Curso: Ciências Biológicas</p>
-                        <p>Período: 5º</p>
-                        <p>Sobre: Fascinada por museus e educação.</p>
-                      </div>
-                    </div>
-                  </div>
-              
+                  <?php endforeach; ?>
                 </div>
-              </div>              
+            </div> 
+
         </div>
     </main>
-      
-
- 
+       
     <footer class="custom-footer mt-5">
         <div class="container py-4 d-flex flex-column flex-md-row justify-content-between">
             <div class="footer-left">
