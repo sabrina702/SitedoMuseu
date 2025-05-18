@@ -90,6 +90,15 @@
   color: #333;
 }
 
+.button-salvar {
+  background-color: #2e7d32;
+  border: none;
+  padding: 5px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  color: white;
+}
+
 .tab-button.active {
   background-color: #2e7d32; /* Verde escuro */
   color: white;
