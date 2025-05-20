@@ -115,4 +115,50 @@
   .btn-visualizar:hover {
     background-color: #0d8112;
   }
+
+  .secao-lista {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-visita {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.visita-titulo {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #0e4711;
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.visita-titulo:hover {
+  background-color: #145c19;
+}
+
+.visita-detalhes {
+  display: none;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.visita-detalhes p {
+  margin: 8px 0;
+}
+
   
