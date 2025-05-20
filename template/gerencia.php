@@ -4,6 +4,12 @@
       header('Location: /SitedoMuseu/template/login.php');
       exit();
   }
+
+  require_once '../bd/conexao.php';
+
+  $stmt = $pdo->prepare("SELECT * FROM visitante ORDER BY data_pretendida ASC");
+  $stmt->execute();
+  $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -35,43 +41,43 @@
         <h1>Visão Geral das Visitas</h1>
       </header>
 
-      <section class="secao-tabela">
-        <table class="tabela-visitas">
-          <thead>
-            <tr>
-              <th>Nome do Responsável</th>
-              <th>Nome da Escola</th>
-              <th>Data da Visita</th>
-              <th>Hora da Visita</th>
-              <th>Nº de Visitantes</th>
-              <th>Faixa Etária</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Maria Silva</td>
-              <td>Escola Estadual ABC</td>
-              <td>20/05/2025</td>
-              <td>09:00</td>
-              <td>30</td>
-              <td>10-12 anos</td>
-              <td><a href="/SitedoMuseu/template/gerenciaVisita.php" class="btn-visualizar">Visualizar</a></td>
-            </tr>
-            <tr>
-              <td>João Santos</td>
-              <td>Colégio XYZ</td>
-              <td>22/05/2025</td>
-              <td>14:00</td>
-              <td>25</td>
-              <td>13-15 anos</td>
-              <td><a href="/SitedoMuseu/template/gerenciaVisita.php" class="btn-visualizar">Visualizar</a></td>
-            </tr>
-          </tbody>
-        </table>
+      <section class="secao-lista">
+        <?php foreach ($visitas as $index => $visita): ?>
+          <div class="card-visita">
+            <button class="visita-titulo" onclick="toggleDetalhes(<?= $index ?>)">
+              <strong><?= htmlspecialchars($visita['nome_escola']) ?></strong> — <?= date('d/m/Y', strtotime($visita['data_pretendida'])) ?>
+            </button>
+
+            <div class="visita-detalhes" id="detalhes-<?= $index ?>">
+              <p><strong>Responsável:</strong> <?= htmlspecialchars($visita['nome_responsavel']) ?></p>
+              <p><strong>Telefone do Responsável:</strong> <?= htmlspecialchars($visita['telefone_responsavel']) ?></p>
+              <p><strong>Email:</strong> <?= htmlspecialchars($visita['email_responsavel']) ?></p>
+              <p><strong>Telefone da Escola:</strong> <?= htmlspecialchars($visita['telefone_escola']) ?></p>
+              <p><strong>Quantidade de Alunos:</strong> <?= htmlspecialchars($visita['quantidade_alunos']) ?></p>
+              <p><strong>Perfil dos Alunos:</strong> <?= htmlspecialchars($visita['perfil_alunos']) ?></p>
+              <p><strong>Hora Pretendida:</strong> <?= htmlspecialchars($visita['hora_pretendida']) ?></p>
+            </div>
+          </div>
+        <?php endforeach; ?>
       </section>
-      
+
     </main>
   </div>
+
+  <script>
+    let aberto = null;
+
+    function toggleDetalhes(index) {
+      const atual = document.getElementById(`detalhes-${index}`);
+
+      if (aberto !== null && aberto !== atual) {
+        aberto.style.display = 'none';
+      }
+
+      atual.style.display = (atual.style.display === 'block') ? 'none' : 'block';
+      aberto = atual.style.display === 'block' ? atual : null;
+    }
+  </script>
+
 </body>
 </html>
