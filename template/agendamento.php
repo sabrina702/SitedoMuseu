@@ -57,7 +57,7 @@
         <div class="content mt-4">
             <div class="form-container">
                 
-                <h1>Solicite sua vista</h1>
+                <h1>Solicite sua visita</h1>
 
                 <?php if ($sucesso): ?>
                 <div class="alert alert-success" role="alert">
@@ -68,7 +68,7 @@
                 <form method="POST" action="/SitedoMuseu/php/validacaoVisita.php">
                 <div class="campo">
                     <label for="telefone_escola">Telefone de contato</label>
-                    <input type="text" name="telefone_escola" id="telefone_escola" placeholder="Ex: Maria Silva"
+                    <input type="text" name="telefone_escola" id="telefone_escola" placeholder="Ex:(35) 99999-9999"
                     value="<?= htmlspecialchars($dados['telefone_escola'] ?? '') ?>"required>
                     <?php if (isset($erros['telefone_escola'])): ?>
                         <span class="text-danger"><?= htmlspecialchars($erros['telefone_escola']) ?></span>
