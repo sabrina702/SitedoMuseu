@@ -84,7 +84,7 @@
 
             <div class="form-group">
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($dados['nome'] ?? '') ?>">
+                <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($dados['nome'] ?? '') ?>" required>
                 <?php if (isset($erros['nome'])): ?>
                 <span class="error-message"><?= htmlspecialchars($erros['nome']) ?></span>
                 <?php endif; ?>
@@ -93,7 +93,7 @@
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($dados['email'] ?? '') ?>">
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($dados['email'] ?? '') ?>" required>
                 <?php if (isset($erros['email'])): ?>
                 <span class="error-message"><?= htmlspecialchars($erros['email']) ?></span>
                 <?php endif; ?>
@@ -101,7 +101,7 @@
 
             <div class="form-group">
             <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" value="<?= htmlspecialchars($dados['senha'] ?? '') ?>" style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;
+            <input type="password" id="senha" name="senha" value="<?= htmlspecialchars($dados['senha'] ?? '') ?>" required style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;
             background-color: #f9f9f9; transition: border-color 0.3s; width: 100%;">
             <?php if (isset($erros['senha'])): ?>
                 <span class="error-message"><?= htmlspecialchars($erros['senha']) ?></span>
@@ -110,7 +110,7 @@
 
             <div class="form-group">
                 <label for="sobre">Sobre:</label>
-                <textarea id="sobre" name="sobre"><?= htmlspecialchars($dados['sobre'] ?? '') ?></textarea>
+                <textarea id="sobre" name="sobre" required><?= htmlspecialchars($dados['sobre'] ?? '') ?></textarea>
                 <?php if (isset($erros['sobre'])): ?>
                 <span class="error-message"><?= htmlspecialchars($erros['sobre']) ?></span>
                 <?php endif; ?>
@@ -118,7 +118,7 @@
 
             <div class="form-group">
                 <label for="perfil">Perfil:</label>
-                <select id="perfil" name="perfil">
+                <select id="perfil" name="perfil" required>
                 <option value="">-- Selecione --</option>
                 <option value="Monitor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'Monitor(a)') ? 'selected' : '' ?>>Monitor(a)</option>
                 <option value="Professor(a)" <?= (isset($dados['perfil']) && $dados['perfil'] == 'Professor(a)') ? 'selected' : '' ?>>Professor(a)</option>
